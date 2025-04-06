@@ -6,4 +6,4 @@ Este repositorio contiene las tareas realizados en 2025 del curso de Algoritmos 
 
 ## Tecnologías Utilizadas
 - Algoritmos Backtracking con Forward Checking.
-- Algoritmos Greddy Determinista
+- Algoritmos Greedy Determinista
