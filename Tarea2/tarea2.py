@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import sys
 
 def read_file(path):
     """
@@ -44,7 +45,15 @@ def read_file(path):
     return num_planes, E, P, L, Ci, Ck, tau
 
 if __name__ == '__main__':
-    filename = 'case1.txt'
+    #filename = '/Users/samedi/Documents/GitHub/Tareas-ExactAlgorithms-Metaheuristic/Tarea2/casos/case1.txt'
+    
+    select = int(input("Selecciona el caso a evaluar: \n-> 1. Caso 1\n-> 2. Caso 2\n-> 3. Caso 3\n-> 4. Caso 4\n-> 0. Salir\n"))
+    if select == 1: filename = '/Users/samedi/Documents/GitHub/Tareas-ExactAlgorithms-Metaheuristic/Tarea2/casos/case1.txt'
+    elif select == 2: filename = '/Users/samedi/Documents/GitHub/Tareas-ExactAlgorithms-Metaheuristic/Tarea2/casos/case2.txt'
+    elif select == 3: filename = '/Users/samedi/Documents/GitHub/Tareas-ExactAlgorithms-Metaheuristic/Tarea2/casos/case3.txt' 
+    elif select == 4: filename = '/Users/samedi/Documents/GitHub/Tareas-ExactAlgorithms-Metaheuristic/Tarea2/casos/case4.txt'
+    else: sys.exit()
+        
     script_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_dir, filename)
 
