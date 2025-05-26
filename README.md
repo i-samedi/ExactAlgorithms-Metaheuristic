@@ -8,4 +8,5 @@ Este repositorio contiene las tareas realizados en 2025 del curso de Algoritmos 
 ## Algoritmos Utilizadas
 - Algoritmos Backtracking & Forward Checking.
 - Algoritmos Greedy Determinista & Estocastico
+- Algoritmo GRASP con Hill-Climbing
 - Simulated Annealing
