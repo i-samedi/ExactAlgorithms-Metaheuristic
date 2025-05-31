@@ -174,7 +174,6 @@ output_dir = "ga_convergence_plots"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-# Archivo para resultados resumidos
 results_summary_file = os.path.join(output_dir, "results_summary.txt")
 with open(results_summary_file, "w") as f_summary:
     f_summary.write("Función, Configuración, Mejor Fitness Promedio, Mejor Fitness StdDev, Mejor Fitness Absoluto, Mejor Solución Absoluta\n")
@@ -214,17 +213,16 @@ with open(results_summary_file, "w") as f_summary:
                 sol_str = f"[{', '.join(f'{s:.4f}' for s in best_solution)}]" if best_solution and len(best_solution) <=5 else f"{len(best_solution)}-dim vector" if best_solution else "N/A"
                 print(f"      Run {run+1} Best Fitness: {best_fitness:.6f}, Solution: {sol_str}")
 
-            # Resultados para esta configuración y función
-            # Filtrar 'inf' y 'nan' para cálculos estadísticos robustos
+           
             valid_fitnesses = [f for f in all_run_best_fitnesses if f != float('inf') and not np.isnan(f)]
             
             if valid_fitnesses:
                 avg_best_fitness = np.mean(valid_fitnesses)
                 std_best_fitness = np.std(valid_fitnesses)
-                overall_best_run_idx = np.argmin(all_run_best_fitnesses) # argmin funciona bien incluso con inf
+                overall_best_run_idx = np.argmin(all_run_best_fitnesses) 
                 abs_best_fitness = all_run_best_fitnesses[overall_best_run_idx]
                 abs_best_solution = all_run_best_solutions[overall_best_run_idx]
-            else: # Todas las runs fallaron en encontrar una solución finita
+            else:
                 avg_best_fitness = float('inf')
                 std_best_fitness = float('nan')
                 abs_best_fitness = float('inf')
@@ -255,23 +253,19 @@ with open(results_summary_file, "w") as f_summary:
                  if best_run_history and not all(h == float('inf') for h in best_run_history):
                     plt.plot(best_run_history, color='red', linewidth=2, label=f"Mejor Run (Fitness: {abs_best_fitness:.4f})")
             
-            # Opcional: Graficar el promedio de las curvas de convergencia
-            # Transponer y luego calcular la media, manejando diferentes longitudes si es necesario
-            # (Esto es más complejo si las generaciones varían o si hay muchos infs)
-            # Por simplicidad, nos quedamos con las curvas individuales y la mejor.
+            
 
             plt.title(f"Convergencia GA - {func_name} - Config: {config_name}")
             plt.xlabel("Generación")
             plt.ylabel("Mejor Fitness Acumulado")
-            if NUM_RUNS <= 10 or valid_fitnesses : plt.legend() # Mostrar leyenda si no es muy concurrida o si hay una mejor run
+            if NUM_RUNS <= 10 or valid_fitnesses : plt.legend() 
             plt.grid(True)
-            plt.yscale('symlog', linthresh=0.01) # Escala logarítmica simétrica para ver mejor rangos amplios y valores negativos
+            plt.yscale('symlog', linthresh=0.01) 
             
             plot_filename = os.path.join(output_dir, f"convergence_{func_name}_{config_name}.png")
             plt.savefig(plot_filename)
             print(f"    Gráfico guardado en: {plot_filename}")
-            # plt.show() # Descomenta si quieres ver cada gráfico interactivamente
-            plt.close() # Cerrar la figura para liberar memoria
+            plt.close() 
 
 print(f"\nProceso completado. Resultados resumidos en: {results_summary_file}")
 print(f"Gráficos de convergencia guardados en la carpeta: {output_dir}")
