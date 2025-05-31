@@ -1,0 +1,89 @@
+Función, Configuración, Mejor Fitness Promedio, Mejor Fitness StdDev, Mejor Fitness Absoluto, Mejor Solución Absoluta
+
+--- Optimizando f1 ---
+  Configuración: Base_Equilibrada
+    Mejor Fitness promedio: -491.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: -491.000000
+    Mejor Solución absoluta: [5.0000]
+
+  Configuración: Mayor_Exploracion
+    Mejor Fitness promedio: -491.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: -491.000000
+    Mejor Solución absoluta: [5.0000]
+
+  Configuración: Mayor_Explotacion
+    Mejor Fitness promedio: -491.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: -491.000000
+    Mejor Solución absoluta: [5.0000]
+
+  Configuración: Rapida_Agresiva
+    Mejor Fitness promedio: -491.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: -491.000000
+    Mejor Solución absoluta: [5.0000]
+
+
+--- Optimizando f2 ---
+  Configuración: Base_Equilibrada
+    Mejor Fitness promedio: -1.941046, StdDev: 0.000000
+    Mejor Fitness absoluto: -1.941046
+    Mejor Solución absoluta: 6-dim vector
+
+  Configuración: Mayor_Exploracion
+    Mejor Fitness promedio: -1.941046, StdDev: 0.000000
+    Mejor Fitness absoluto: -1.941046
+    Mejor Solución absoluta: 6-dim vector
+
+  Configuración: Mayor_Explotacion
+    Mejor Fitness promedio: -1.941046, StdDev: 0.000000
+    Mejor Fitness absoluto: -1.941046
+    Mejor Solución absoluta: 6-dim vector
+
+  Configuración: Rapida_Agresiva
+    Mejor Fitness promedio: -1.941046, StdDev: 0.000000
+    Mejor Fitness absoluto: -1.941046
+    Mejor Solución absoluta: 6-dim vector
+
+
+--- Optimizando f3 ---
+  Configuración: Base_Equilibrada
+    Mejor Fitness promedio: 0.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: 0.000000
+    Mejor Solución absoluta: [-0.0616, 4.1231]
+
+  Configuración: Mayor_Exploracion
+    Mejor Fitness promedio: 0.000000, StdDev: 0.000000
+    Mejor Fitness absoluto: 0.000000
+    Mejor Solución absoluta: [2.0304, -0.0609]
+
+  Configuración: Mayor_Explotacion
+    Mejor Fitness promedio: 1.013791, StdDev: 1.938381
+    Mejor Fitness absoluto: 0.000000
+    Mejor Solución absoluta: [-0.0616, 4.1231]
+
+  Configuración: Rapida_Agresiva
+    Mejor Fitness promedio: 442.462753, StdDev: 1319.238556
+    Mejor Fitness absoluto: 0.000000
+    Mejor Solución absoluta: [-0.0616, 4.1231]
+
+
+--- Optimizando f4 ---
+  Configuración: Base_Equilibrada
+    Mejor Fitness promedio: -45.759930, StdDev: 0.008954
+    Mejor Fitness absoluto: -45.771070
+    Mejor Solución absoluta: 10-dim vector
+
+  Configuración: Mayor_Exploracion
+    Mejor Fitness promedio: -45.633391, StdDev: 0.073880
+    Mejor Fitness absoluto: -45.720174
+    Mejor Solución absoluta: 10-dim vector
+
+  Configuración: Mayor_Explotacion
+    Mejor Fitness promedio: -45.778446, StdDev: 0.000040
+    Mejor Fitness absoluto: -45.778469
+    Mejor Solución absoluta: 10-dim vector
+
+  Configuración: Rapida_Agresiva
+    Mejor Fitness promedio: -45.605551, StdDev: 0.217126
+    Mejor Fitness absoluto: -45.763627
+    Mejor Solución absoluta: 10-dim vector
+
