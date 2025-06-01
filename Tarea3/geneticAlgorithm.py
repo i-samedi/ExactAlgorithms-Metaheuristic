@@ -2,12 +2,12 @@ import random
 import math
 import numpy as np
 import matplotlib.pyplot as plt
-import os # Para crear carpetas para los gráficos
+import os
 
 # --- 1. Funciones Multimodales presentadas en la Tarea ---
 def f1(x_vec):
     x1 = x_vec[0]
-    if not (-5 <= x1 <= 5): return float('inf') # Penalización por salir de límites
+    if not (-5 <= x1 <= 5): return float('inf')
     return 4 - 4*x1**3 - 4*x1 + x1**2
 
 def f2(x_vec):
@@ -77,9 +77,7 @@ def mutate_gaussian(individual, mutation_rate_per_gene, mutation_strength_factor
     mutated_individual = list(individual)
     for i in range(len(mutated_individual)):
         if random.random() < mutation_rate_per_gene:
-            # Escalar la fuerza de mutación al rango del gen específico
             gene_range = bounds[i][1] - bounds[i][0]
-            # Evitar sigma=0 si gene_range es muy pequeño o cero (aunque bounds debería evitarlo)
             sigma = max(mutation_strength_factor * gene_range, 1e-6) 
             change = random.gauss(0, sigma)
             mutated_individual[i] += change
@@ -116,7 +114,7 @@ def genetic_algorithm(obj_function, specs, pop_size, num_generations,
 
         best_fitness_history.append(best_overall_fitness)
 
-        if generation % (num_generations // 10) == 0 or generation == num_generations -1 : # Imprimir progreso
+        if generation % (num_generations // 10) == 0 or generation == num_generations -1 :
              print(f"  Gen: {generation:3d}, Best Fitness: {best_overall_fitness:.6f}")
 
         new_population = []
@@ -132,16 +130,15 @@ def genetic_algorithm(obj_function, specs, pop_size, num_generations,
             parent1 = tournament_selection(population, fitness_values, tournament_k)
             parent2 = tournament_selection(population, fitness_values, tournament_k)
             
-            child = parent1 # Por defecto, si no hay cruce
+            child = parent1
             if random.random() < crossover_rate:
-                child = crossover_blx_alpha(parent1, parent2, 0.5, bounds) # alpha=0.5 es común
+                child = crossover_blx_alpha(parent1, parent2, 0.5, bounds) 
             
             child = mutate_gaussian(child, mutation_rate_per_gene, mutation_strength_factor, bounds)
             new_population.append(child)
             
         population = new_population[:pop_size]
 
-    # Recalcular el mejor de la población final, por si el elitismo falló o la última mutación fue buena
     final_fitness_values = [calculate_fitness(ind, obj_function) for ind in population]
     final_best_idx = 0
     final_best_fitness_val = float('inf')
@@ -152,8 +149,8 @@ def genetic_algorithm(obj_function, specs, pop_size, num_generations,
             if final_best_fitness_val < best_overall_fitness: # Comparar con el mejor histórico
                 best_overall_fitness = final_best_fitness_val
                 best_overall_solution = population[final_best_idx]
-        except ValueError: # Si todos los fitness son inf
-             pass # best_overall_fitness y solution retendrán sus valores previos o iniciales
+        except ValueError: 
+             pass 
                  
     return best_overall_solution, best_overall_fitness, best_fitness_history
 
@@ -209,7 +206,7 @@ with open(results_summary_file, "w") as f_summary:
                 all_run_best_fitnesses.append(best_fitness)
                 all_run_best_solutions.append(best_solution if best_solution is not None else [np.nan]*specs['dim'])
                 all_run_histories.append(history)
-                # Evitar imprimir soluciones muy largas directamente en consola
+
                 sol_str = f"[{', '.join(f'{s:.4f}' for s in best_solution)}]" if best_solution and len(best_solution) <=5 else f"{len(best_solution)}-dim vector" if best_solution else "N/A"
                 print(f"      Run {run+1} Best Fitness: {best_fitness:.6f}, Solution: {sol_str}")
 
@@ -243,9 +240,8 @@ with open(results_summary_file, "w") as f_summary:
             # Gráfico de convergencia
             plt.figure(figsize=(10, 6))
             for run_idx, history in enumerate(all_run_histories):
-                # Solo graficar si la historia no está vacía y no son todos inf
                 if history and not all(h == float('inf') for h in history):
-                    plt.plot(history, alpha=0.3, label=f"Run {run_idx+1}" if NUM_RUNS <= 10 else None) # Etiqueta solo si no son demasiadas
+                    plt.plot(history, alpha=0.3, label=f"Run {run_idx+1}" if NUM_RUNS <= 10 else None) 
 
             # Opcional: Destacar la mejor run (la que alcanzó el mejor fitness final)
             if valid_fitnesses:
