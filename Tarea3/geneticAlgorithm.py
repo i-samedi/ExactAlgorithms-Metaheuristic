@@ -151,7 +151,7 @@ def genetic_algorithm(obj_function, specs, pop_size, num_generations,
                 best_overall_solution = population[final_best_idx]
         except ValueError: 
              pass 
-                 
+         
     return best_overall_solution, best_overall_fitness, best_fitness_history
 
 
@@ -177,6 +177,7 @@ with open(results_summary_file, "w") as f_summary:
 
     for func_obj in TARGET_FUNCTIONS:
         func_name = func_obj.__name__
+        
         print(f"\n--- Optimizando {func_name} ---")
         f_summary.write(f"\n--- Optimizando {func_name} ---\n")
         specs = FUNCTION_SPECS[func_obj]
