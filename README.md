@@ -13,3 +13,4 @@ Este repositorio contiene las tareas realizadas en 2025 del curso de Algoritmos 
 - Simulated Annealing
 - Genetic Algorithm
 - Algoritmo Binary Differential Evolution (BDE)
+- Simulated Annealing (SA)
