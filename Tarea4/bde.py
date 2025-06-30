@@ -327,8 +327,8 @@ if __name__ == "__main__":
     # UNSW-NB15_training-set.csv and UNSW_NB15_testing-set.csv
     # You can find them online, e.g., on Kaggle or the UNSW website
     # Descarga los archivos y actualiza las rutas:
-    train_file = './UNSW_NB15_training-set.csv' # <--- ACTUALIZA ESTA RUTA
-    test_file = './UNSW_NB15_testing-set.csv'   # <--- ACTUALIZA ESTA RUTA
+    train_file = 'UNSW_NB15_training-set.csv' # <--- ACTUALIZA ESTA RUTA
+    test_file = 'UNSW_NB15_testing-set.csv'   # <--- ACTUALIZA ESTA RUTA
 
     # Verificar si los archivos existen
     import os
