@@ -11,7 +11,9 @@ import time
 import math
 import warnings
 
+
 warnings.filterwarnings('ignore')
+
 
 def load_and_preprocess_data(train_path, test_path):
     print("Cargando datos...")
@@ -29,13 +31,16 @@ def load_and_preprocess_data(train_path, test_path):
     categorical_features = X.select_dtypes(include=['object']).columns
     numerical_features = X.select_dtypes(include=np.number).columns
 
+
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', MinMaxScaler(), numerical_features),
             ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_features)])
 
     print("Aplicando pre-procesamiento...")
+   
     X_processed = preprocessor.fit_transform(X)
+
     print(f"Dimensiones de los datos pre-procesados: {X_processed.shape}")
     print(f"Número de características después del pre-procesamiento (espacio de búsqueda para la metaheurística): {X_processed.shape[1]}")
 
@@ -51,9 +56,10 @@ def load_and_preprocess_data(train_path, test_path):
 
 
 def fitness_function(individual, X_train, X_test, y_train, y_test):
+
     selected_features_indices = np.where(individual == 1)[0]
     num_selected_features = len(selected_features_indices)
-    total_features = len(individual)
+    total_features = len(individual) 
 
     if num_selected_features == 0 or num_selected_features == total_features:
          return -1.0 
@@ -61,9 +67,11 @@ def fitness_function(individual, X_train, X_test, y_train, y_test):
     X_train_selected = X_train[:, selected_features_indices]
     X_test_selected = X_test[:, selected_features_indices]
 
+
     classifier = RandomForestClassifier(n_estimators=50, max_depth=4, random_state=42, n_jobs=-1)
     classifier.fit(X_train_selected, y_train)
     y_pred = classifier.predict(X_test_selected)
+
 
     accuracy = accuracy_score(y_test, y_pred)
 
@@ -73,8 +81,10 @@ def fitness_function(individual, X_train, X_test, y_train, y_test):
 
     return fitness
 
+# --- 3. Implementación del Algoritmo Simulated Annealing (SA) ---
 
 def acceptance_probability(current_fitness, neighbor_fitness, temperature):
+    # Si el nuevo estado es mejor, siempre aceptarlo
     if neighbor_fitness > current_fitness:
         return 1.0
 
@@ -87,6 +97,7 @@ def run_simulated_annealing(X_train, X_test, y_train, y_test, T_initial, alpha, 
     print(f"\nEjecutando Simulated Annealing (SA) con T_initial={T_initial}, alpha={alpha}, {num_iterations} iteraciones...")
     print(f"Espacio de búsqueda binario tiene {total_features} dimensiones.")
 
+
     current_individual = np.random.randint(0, 2, size=total_features)
     while np.sum(current_individual) == 0 or np.sum(current_individual) == total_features:
          current_individual = np.random.randint(0, 2, size=total_features)
@@ -96,7 +107,7 @@ def run_simulated_annealing(X_train, X_test, y_train, y_test, T_initial, alpha, 
     best_individual = current_individual.copy()
     best_fitness = current_fitness
 
-    history_best_fitness = [best_fitness] 
+    history_best_fitness = [best_fitness] # Para graficar la convergencia
 
     temperature = T_initial
     start_time = time.time()
@@ -104,12 +115,12 @@ def run_simulated_annealing(X_train, X_test, y_train, y_test, T_initial, alpha, 
     for i in range(num_iterations):
         neighbor_individual = current_individual.copy()
 
+        # Invertir un bit aleatorio
         flip_index = random.randint(0, total_features - 1)
-        neighbor_individual[flip_index] = 1 - neighbor_individual[flip_index] 
+        neighbor_individual[flip_index] = 1 - neighbor_individual[flip_index]
 
         if np.sum(neighbor_individual) == 0 or np.sum(neighbor_individual) == total_features:
-             neighbor_individual[flip_index] = 1 - neighbor_individual[flip_index] 
-
+             neighbor_individual[flip_index] = 1 - neighbor_individual[flip_index]
              neighbor_fitness = fitness_function(neighbor_individual, X_train, X_test, y_train, y_test)
 
              if neighbor_fitness <= -0.9: 
@@ -120,7 +131,9 @@ def run_simulated_annealing(X_train, X_test, y_train, y_test, T_initial, alpha, 
 
 
         else:
+            # Calcular el fitness del vecino si es válido
             neighbor_fitness = fitness_function(neighbor_individual, X_train, X_test, y_train, y_test)
+
 
         ap = acceptance_probability(current_fitness, neighbor_fitness, temperature)
 
@@ -146,10 +159,13 @@ def run_simulated_annealing(X_train, X_test, y_train, y_test, T_initial, alpha, 
 
     return best_individual, best_fitness, history_best_fitness
 
+
+
 def evaluate_final_model(best_individual, X_train, X_test, y_train, y_test, original_features, cat_feature_names):
     selected_features_indices = np.where(best_individual == 1)[0]
     num_selected_features = len(selected_features_indices)
     total_features_in_optimized_space = len(best_individual) 
+
 
     print("\n--- Evaluación del Mejor Subconjunto de Características (Simulated Annealing) ---")
     print(f"Características seleccionadas: {num_selected_features}/{total_features_in_optimized_space} (del espacio pre-procesado)")
@@ -158,10 +174,11 @@ def evaluate_final_model(best_individual, X_train, X_test, y_train, y_test, orig
         print("No se seleccionó ninguna característica. No se puede evaluar el modelo final.")
         return
 
+
     X_train_selected = X_train[:, selected_features_indices]
     X_test_selected = X_test[:, selected_features_indices]
 
-    final_classifier = RandomForestClassifier(n_estimators=500, 
+    final_classifier = RandomForestClassifier(n_estimators=500,
                                             max_depth=4,
                                             min_samples_leaf=1,
                                             min_samples_split=2,
@@ -173,13 +190,14 @@ def evaluate_final_model(best_individual, X_train, X_test, y_train, y_test, orig
     print("Evaluando clasificador final en el test set...")
     y_pred = final_classifier.predict(X_test_selected)
 
+
     acc = accuracy_score(y_test, y_pred)
     cm = confusion_matrix(y_test, y_pred)
 
-
     if cm.shape == (2, 2):
         TN, FP, FN, TP = cm.ravel()
-    else:   
+    else:
+  
         print("Advertencia: Matriz de confusión no es 2x2. Recalculando métricas.")
         TP = ((y_test == 1) & (y_pred == 1)).sum()
         TN = ((y_test == 0) & (y_pred == 0)).sum()
@@ -189,7 +207,7 @@ def evaluate_final_model(best_individual, X_train, X_test, y_train, y_test, orig
 
     dr = recall_score(y_test, y_pred, average='binary') 
     pr = precision_score(y_test, y_pred, average='binary') 
-    f1 = f1_score(y_test, y_pred, average='binary')     
+    f1 = f1_score(y_test, y_pred, average='binary')   
 
     fpr = FP / (FP + TN) if (FP + TN) > 0 else 0.0
 
@@ -203,10 +221,10 @@ def evaluate_final_model(best_individual, X_train, X_test, y_train, y_test, orig
     print(f"Índices de las características seleccionadas (en el espacio pre-procesado): {selected_features_indices.tolist()}")
 
 
-# --- Main Execution ---
 
 if __name__ == "__main__":
-    train_file = 'UNSW_NB15_training-set.csv' 
+
+    train_file = 'UNSW_NB15_training-set.csv'
     test_file = 'UNSW_NB15_testing-set.csv'   
 
     import os
@@ -215,12 +233,13 @@ if __name__ == "__main__":
         print("Por favor, descarga los datasets UNSW-NB15 (training-set.csv y testing-set.csv)")
         print("y actualiza las rutas de los archivos en el código.")
     else:
+  
         X_train, X_test, y_train, y_test, original_features, categorical_features = load_and_preprocess_data(train_file, test_file)
 
         total_features_count = X_train.shape[1]
 
         sa_T_initial = 100.0
-        sa_alpha = 0.995 # Enfriamiento lento para explorar más
+        sa_alpha = 0.995 
         sa_num_iterations = 5000 
 
         best_features_binary_vector, final_best_fitness, fitness_history = run_simulated_annealing(
