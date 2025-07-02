@@ -10,7 +10,6 @@ Este repositorio contiene las tareas realizadas en 2025 del curso de Algoritmos 
 - Algoritmos Backtracking & Forward Checking.
 - Algoritmos Greedy Determinista & Estocastico
 - Algoritmo GRASP con Hill-Climbing
-- Simulated Annealing
-- Genetic Algorithm
-- Algoritmo Binary Differential Evolution (BDE)
 - Simulated Annealing (SA)
+- Genetic Algorithms (GA)
+- Algoritmo Binary Differential Evolution (BDE)
